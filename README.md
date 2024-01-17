@@ -1,10 +1,10 @@
-# Dockerized-SpringBoot-Applications-Assignment-MaxPW
+# prometheus-grafana-docker-MaxPW
  
-This Github repository contains a Springboot Naughts and Crosses API with a Postgres Database, a pgAdmin interface, a Prometheus monitoring system and a Grafana metrics dashboard. 
+This Github repository a Prometheus monitoring system and a Grafana metrics dashboard, meant to work in tandem with a Dockerized Springboot API. 
 
 ## Summary
 
-[Dockerized-SpringBoot-Applications-Assignment-MaxPW](#dockerized-springboot-applications-assignment-maxpw)
+[prometheus-grafana-docker-MaxPW](#prometheus-grafana-docker-MaxPW)
 * [Summary](#summary)
 * [Setup and Pre-requisites](#setup-and-pre-requisites)
 * [Running Naughts-and-crosses](#running-naughts-and-crosses)
@@ -22,7 +22,9 @@ This Github repository contains a Springboot Naughts and Crosses API with a Post
 
 -  Install Docker on your device (you can use the following link for a guide: [https://docs.docker.com/get-docker/](https://docs.docker.com/get-docker/))
 
-2. Clone this repository or download the .zip file from GitHub (extract the downloaded zip file )
+2. Run an instance of the [Dockerized-Springboot-naughts-and-crosses](https://github.com/mpirotaiswilton-IW/Dockerized-Springboot-naughts-and-crosses-MaxPW) 
+
+3. Clone this repository or download the .zip file from GitHub (extract the downloaded zip file )
 
 ## Running The Prometheus and Grafana containers
 
@@ -64,4 +66,22 @@ Now we can add a dashboard to monitor our API:
 
 7. Navigate back to the Grafana home page and, from the `Basic` row, select `Create your first dashboard`
 
-8. 
+8. On the bottom right hand side of the screen, underneath the `+ Add visualization` button, hit the `Import dashboard` button. From there, upload the `Basic Dashboard.json` file present in this repository.
+
+9. Hit `Load`. You should now see a modest dashboard, featuring (from left to right and top to bottom):
+
+    * The application Start Time
+    * Uptime
+    * System CPU usage
+    * 2xx SUCCESSFUL response rates
+    * 4xx CLIENT ERROR response rates (both measured in responses per second)
+
+## Monitoring a Springboot Application
+
+### Example: Naughts-and-Crosses API
+
+To demonstrate both containers working successfully, we can launch the `naughts-and-crosses` Springboot API, located at the [Dockerized-Springboot-naughts-and-crosses-MaxPW](https://github.com/mpirotaiswilton-IW/Dockerized-Springboot-naughts-and-crosses-MaxPW "naughts and crosses Springboot API repository link") GitHub repository, and use its endpoints. This will give prometheus data that will then be reflected in the Grafana dashboard.
+
+1. Ensure the API and the monitoring services are running.
+2. Perform 5 requests to `http://localhost:8080/user/` in rapid succession, then check the Grafana dashboard. The `2xx response rate` graph visualisation panel should show a spike in responses per second.
+3. Perform 5 requests to `http://localhost:8080/user/1234` in rapid succession, then check the Grafana dashboard. The `4xx response rate` graph visualisation panel should show a spike in responses per second.
